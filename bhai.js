@@ -46,7 +46,7 @@ form.addEventListener('submit', (event) => {
     // console.log(radiusValue);
     //Just for column Y
     for (let i = PCstationValue; i < PTStationValue; i++) {
-        if (i % 50 == 0) {
+        if (i % 20 == 0) {
             const tr = document.createElement('tr');
             tableBody.appendChild(tr);
 
