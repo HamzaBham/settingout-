@@ -20,80 +20,88 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
 
     radiusOutput.innerHTML = "<b>Radius Of Curve(R):</b>" + " " + radius.value;
-    angleOutput.innerHTML =  "<b>Deflection Angle(▲):</b>" + " " + angle.value;   
-    piOutput.innerHTML =    "<b>PI Station:</b>" + " " + PI.value;
+    angleOutput.innerHTML = "<b>Deflection Angle(▲):</b>" + " " + angle.value;
+    piOutput.innerHTML = "<b>PI Station:</b>" + " " + PI.value;
 
-    let PCstationValue = (parseInt(PI.value - radius.value * Math.tan((angle.value * Math.PI / 180) / 2)));
-    PCstation.innerHTML = "<b>PC Station:</b>" + " " + PCstationValue;
+    if (radius.value < 0 ) {
+        alert('Radius of Curve can not be negative');
+    }else if(angle.value == 0 || angle.value == 180){
+        alert('Angle can not be 0 or 180')
+    }  else {
 
-    let PTStationValue = parseInt(PCstationValue + 2 * Math.PI * radius.value * angle.value / 360);
-    PTstation.innerHTML = "<b>PT Station:</b>" + " " + PTStationValue;
+        let PCstationValue = (parseInt(PI.value - radius.value * Math.tan((angle.value * Math.PI / 180) / 2)));
+        PCstation.innerHTML = "<b>PC Station:</b>" + " " + PCstationValue;
 
-    const tr = document.createElement('tr');
-    tableBody.appendChild(tr);
+        let PTStationValue = parseInt(PCstationValue + 2 * Math.PI * radius.value * angle.value / 360);
+        PTstation.innerHTML = "<b>PT Station:</b>" + " " + PTStationValue;
 
-    const th = document.createElement('th');
-    th.textContent = n;
-    tr.appendChild(th);
+        const tr = document.createElement('tr');
+        tableBody.appendChild(tr);
 
-    const tdOne = document.createElement('td');
-    tdOne.textContent = parseInt(PCstationValue);
-    tr.appendChild(tdOne);
+        const th = document.createElement('th');
+        th.textContent = n;
+        tr.appendChild(th);
 
-    n++;
-    //Just for column Y
-    let radiusValue = radius.value;
-    // console.log(radiusValue);
-    //Just for column Y
-    for (let i = PCstationValue; i < PTStationValue; i++) {
-        if (i % 20 == 0) {
-            const tr = document.createElement('tr');
-            tableBody.appendChild(tr);
+        const tdOne = document.createElement('td');
+        tdOne.textContent = parseInt(PCstationValue);
+        tr.appendChild(tdOne);
 
-            const th = document.createElement('th');
-            th.textContent = n;
-            tr.appendChild(th);
+        n++;
+        //Just for column Y
+        let radiusValue = radius.value;
+        // console.log(radiusValue);
+        //Just for column Y
+        for (let i = PCstationValue; i < PTStationValue; i++) {
+            if (i % 20 == 0) {
+                const tr = document.createElement('tr');
+                tableBody.appendChild(tr);
 
-            const tdOne = document.createElement('td');
-            tdOne.textContent = parseInt(i);
-            tr.appendChild(tdOne);
+                const th = document.createElement('th');
+                th.textContent = n;
+                tr.appendChild(th);
 
-            n++;
+                const tdOne = document.createElement('td');
+                tdOne.textContent = parseInt(i);
+                tr.appendChild(tdOne);
+
+                n++;
+            }
+        }
+
+        const anothertr = document.createElement('tr');
+        tableBody.appendChild(anothertr);
+
+        const anotherth = document.createElement('th');
+        anotherth.textContent = n;
+        anothertr.appendChild(anotherth);
+
+        const lasttdOne = document.createElement('td');
+        lasttdOne.textContent = parseInt(PTStationValue);
+        anothertr.appendChild(lasttdOne);
+
+        form.reset();
+
+        const alltds = document.querySelectorAll('td');
+        const alltrs = document.querySelectorAll('tr');
+        for (let j = 0; j <= alltrs.length; j++) {
+
+            const tdTwo = document.createElement('td');
+            alltrs[j + 2].appendChild(tdTwo);
+            tdTwo.textContent = (alltds[j + 1].textContent - alltds[j].textContent);
+
+
+            const tdThree = document.createElement('td');
+            tdThree.classList.add('tdThree');
+            alltrs[j + 2].appendChild(tdThree);
+            let x = parseInt(tdTwo.textContent);
+            tdThree.textContent = parseFloat((180 * x) / (2 * Math.PI * parseInt(radiusValue))).toFixed(2);
+
+            const alltdThree = document.querySelectorAll('.tdThree');
+            console.log(alltdThree[j]);
         }
     }
 
-    const anothertr = document.createElement('tr');
-    tableBody.appendChild(anothertr);
 
-    const anotherth = document.createElement('th');
-    anotherth.textContent = n;
-    anothertr.appendChild(anotherth);
-
-    const lasttdOne = document.createElement('td');
-    lasttdOne.textContent = parseInt(PTStationValue);
-    anothertr.appendChild(lasttdOne);
-
-    form.reset();
-
-    const alltds = document.querySelectorAll('td');
-    const alltrs = document.querySelectorAll('tr');
-    for (let j = 0; j <= alltrs.length; j++) {
-
-        const tdTwo = document.createElement('td');
-        alltrs[j + 2].appendChild(tdTwo);
-        tdTwo.textContent = (alltds[j + 1].textContent - alltds[j].textContent);
-
-
-        const tdThree = document.createElement('td');
-        tdThree.classList.add('tdThree');
-        alltrs[j + 2].appendChild(tdThree);
-        let x = parseInt(tdTwo.textContent);
-        tdThree.textContent = parseFloat((180 * x) / (2 * Math.PI * parseInt(radiusValue))).toFixed(2);
-
-        const alltdThree = document.querySelectorAll('.tdThree');
-        console.log(alltdThree[j]);
-    }
- 
 });
 /* <tr>
    <th scope="row">1</th>
