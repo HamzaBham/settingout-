@@ -20,14 +20,25 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
 
     radiusOutput.innerHTML = "<b>Radius Of Curve(R):</b>" + " " + radius.value;
-    angleOutput.innerHTML = "<b>Deflection Angle(▲):</b>" + " " + angle.value;
+    angleOutput.innerHTML = "<b>Deflection Angle(Δ):</b>" + " " + angle.value;
     piOutput.innerHTML = "<b>PI Station:</b>" + " " + PI.value;
 
-    if (radius.value < 0 ) {
+    if (radius.value < 0) {
         alert('Radius of Curve can not be negative');
-    }else if(angle.value == 0 || angle.value == 180){
-        alert('Angle can not be 0 or 180')
-    }  else {
+        radius.style.border = "1px solid red"; 
+        
+        radiusOutput.innerHTML = "<b>Radius Of Curve(R):</b>" 
+        angleOutput.innerHTML = "<b>Deflection Angle(Δ):</b>" 
+        piOutput.innerHTML = "<b>PI Station:</b>" ;
+
+    } else if (angle.value == 0 || angle.value == 180) {
+        alert('Deflection Angle can not be 0 or 180');
+        angle.style.border = "1px solid red"; 
+
+        radiusOutput.innerHTML = "<b>Radius Of Curve(R):</b>" 
+        angleOutput.innerHTML = "<b>Deflection Angle(Δ):</b>" 
+        piOutput.innerHTML = "<b>PI Station:</b>" ;
+    } else {
 
         let PCstationValue = (parseInt(PI.value - radius.value * Math.tan((angle.value * Math.PI / 180) / 2)));
         PCstation.innerHTML = "<b>PC Station:</b>" + " " + PCstationValue;
@@ -97,15 +108,13 @@ form.addEventListener('submit', (event) => {
             tdThree.textContent = parseFloat((180 * x) / (2 * Math.PI * parseInt(radiusValue))).toFixed(2);
 
             const alltdThree = document.querySelectorAll('.tdThree');
-            console.log(alltdThree[j]);
+            if (alltdThree.length == (alltrs.length - 2)) {
+
+                const sum = document.querySelector('#sum');
+                sum.innerHTML = "<b>Summation of θi:</b>" + " " + (parseInt(alltrs.length - 4) * parseFloat(alltdThree[1].textContent) + parseFloat(alltdThree[0].textContent) + parseFloat(alltdThree[alltrs.length - 3].textContent)).toFixed(0);
+            }
         }
     }
 
 
-});
-/* <tr>
-   <th scope="row">1</th>
-   <td>Mark</td>
-   <td>Otto</td>
-   <td>@mdo</td>
-</tr>   */
+}); 
