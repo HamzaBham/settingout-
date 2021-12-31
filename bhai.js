@@ -20,7 +20,7 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
 
     radiusOutput.innerHTML = "<b>Radius Of Curve(R):</b>" + " " + radius.value;
-    angleOutput.innerHTML =  "<b>angle of Deflection(▲):</b>" + " " + angle.value;   
+    angleOutput.innerHTML =  "<b>Deflection Angle(▲):</b>" + " " + angle.value;   
     piOutput.innerHTML =    "<b>PI Station:</b>" + " " + PI.value;
 
     let PCstationValue = (parseInt(PI.value - radius.value * Math.tan((angle.value * Math.PI / 180) / 2)));
