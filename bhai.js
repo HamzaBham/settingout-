@@ -25,7 +25,10 @@ form.addEventListener('submit', (event) => {
 
     if (radius.value < 0) {
         alert('Radius of Curve can not be negative');
-        radius.style.border = "1px solid red"; 
+        radius.style.border = "2px solid red"; 
+        setTimeout(() => {
+            radius.style.border = "1px solid gray";
+        },2000);
         
         radiusOutput.innerHTML = "<b>Radius Of Curve(R):</b>" 
         angleOutput.innerHTML = "<b>Deflection Angle(Δ):</b>" 
@@ -33,17 +36,20 @@ form.addEventListener('submit', (event) => {
 
     } else if (angle.value == 0 || angle.value == 180) {
         alert('Deflection Angle can not be 0 or 180');
-        angle.style.border = "1px solid red"; 
+        angle.style.border = "2px solid red"; 
+        setTimeout(() => {
+            angle.style.border = "1px solid gray";
+        },2000);
 
         radiusOutput.innerHTML = "<b>Radius Of Curve(R):</b>" 
         angleOutput.innerHTML = "<b>Deflection Angle(Δ):</b>" 
         piOutput.innerHTML = "<b>PI Station:</b>" ;
     } else {
 
-        let PCstationValue = (parseInt(PI.value - radius.value * Math.tan((angle.value * Math.PI / 180) / 2)));
+        let PCstationValue = Math.round(PI.value - radius.value * Math.tan((angle.value * Math.PI / 180) / 2)) ;
         PCstation.innerHTML = "<b>PC Station:</b>" + " " + PCstationValue;
 
-        let PTStationValue = parseInt(PCstationValue + 2 * Math.PI * radius.value * angle.value / 360);
+        let PTStationValue = Math.round(PCstationValue + 2 * Math.PI * radius.value * angle.value / 360);
         PTstation.innerHTML = "<b>PT Station:</b>" + " " + PTStationValue;
 
         const tr = document.createElement('tr');
@@ -54,13 +60,12 @@ form.addEventListener('submit', (event) => {
         tr.appendChild(th);
 
         const tdOne = document.createElement('td');
-        tdOne.textContent = parseInt(PCstationValue);
+        tdOne.textContent =  PCstationValue ;
         tr.appendChild(tdOne);
 
         n++;
         //Just for column Y
-        let radiusValue = radius.value;
-        // console.log(radiusValue);
+        let radiusValue = radius.value; 
         //Just for column Y
         for (let i = PCstationValue; i < PTStationValue; i++) {
             if (i % 20 == 0) {
@@ -72,7 +77,7 @@ form.addEventListener('submit', (event) => {
                 tr.appendChild(th);
 
                 const tdOne = document.createElement('td');
-                tdOne.textContent = parseInt(i);
+                tdOne.textContent = i ;
                 tr.appendChild(tdOne);
 
                 n++;
@@ -87,7 +92,7 @@ form.addEventListener('submit', (event) => {
         anothertr.appendChild(anotherth);
 
         const lasttdOne = document.createElement('td');
-        lasttdOne.textContent = parseInt(PTStationValue);
+        lasttdOne.textContent =  PTStationValue ;
         anothertr.appendChild(lasttdOne);
 
         form.reset();
@@ -104,17 +109,17 @@ form.addEventListener('submit', (event) => {
             const tdThree = document.createElement('td');
             tdThree.classList.add('tdThree');
             alltrs[j + 2].appendChild(tdThree);
-            let x = parseInt(tdTwo.textContent);
-            tdThree.textContent = parseFloat((180 * x) / (2 * Math.PI * parseInt(radiusValue))).toFixed(2);
+            let x = Math.round(tdTwo.textContent);
+            tdThree.textContent = parseFloat((180 * x) / (2 * Math.PI * Math.round(radiusValue))).toFixed(2);
 
             const alltdThree = document.querySelectorAll('.tdThree');
             if (alltdThree.length == (alltrs.length - 2)) {
 
                 const sum = document.querySelector('#sum');
-                sum.innerHTML = "<b>Summation of θi:</b>" + " " + (parseInt(alltrs.length - 4) * parseFloat(alltdThree[1].textContent) + parseFloat(alltdThree[0].textContent) + parseFloat(alltdThree[alltrs.length - 3].textContent)).toFixed(0);
+                sum.innerHTML = "<b>Summation of θi:</b>" + " " +  Math.round((alltrs.length - 4) * parseFloat(alltdThree[1].textContent) + parseFloat(alltdThree[0].textContent) + parseFloat(alltdThree[alltrs.length - 3].textContent) );
             }
         }
     }
 
 
-}); 
+});  
