@@ -110,7 +110,7 @@ form.addEventListener('submit', (event) => {
             tdThree.classList.add('tdThree');
             alltrs[j + 2].appendChild(tdThree);
             let x = Math.round(tdTwo.textContent);
-            tdThree.textContent = parseFloat((180 * x) / (2 * Math.PI * Math.round(radiusValue))).toFixed(2);
+            tdThree.textContent = parseFloat((180 * x) / (2 * Math.PI * Math.round(radiusValue))).toFixed(3);
 
             const alltdThree = document.querySelectorAll('.tdThree');
             if (alltdThree.length == (alltrs.length - 2)) {
