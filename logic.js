@@ -75,7 +75,7 @@ form.addEventListener('submit', (event) => {
         const th = document.createElement('th');
         th.textContent = n;
         tr.appendChild(th);
-
+ 
         const tdOne = document.createElement('td');
         tdOne.textContent = PCstationValue;
         tr.appendChild(tdOne);
