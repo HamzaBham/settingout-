@@ -133,7 +133,7 @@ form.addEventListener('submit', (event) => {
             if (alltdThree.length == (alltrs.length - 2)) {
 
                 const sum = document.querySelector('#sum');
-                sum.innerHTML = "<b>Summation of θi:</b>" + " " + Math.round((alltrs.length - 4) * parseFloat(alltdThree[1].textContent) + parseFloat(alltdThree[0].textContent) + parseFloat(alltdThree[alltrs.length - 3].textContent)) + " degrees" + "<br>{Note: Summation of θi should be half of Deflection Angle (Δ)}";
+                sum.innerHTML = "<b>Summation of θi:</b>" + " " + parseFloat((alltrs.length - 4) * parseFloat(alltdThree[1].textContent) + parseFloat(alltdThree[0].textContent) + parseFloat(alltdThree[alltrs.length - 3].textContent)).toFixed(1) + " degrees" + "<br>{Note: Summation of θi should be half of Deflection Angle (Δ)}";
             }
 
             if (j == 0) {
