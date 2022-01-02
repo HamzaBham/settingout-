@@ -14,16 +14,20 @@
 <body>
     <form style="text-align: center; margin-top: 60px;">
         <div class="mb-3">
-            <label class="form-label">Radius of Curve(R)</label>
+            <label class="form-label">Radius of Curve (R)</label>
             <input style="border: 1px solid gray;" id="radius-input" type="number" class="form-control input" placeholder="Type" required>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Deflection Angle(Δ)</label>
+            <label for="exampleInputPassword1" class="form-label">Deflection Angle in degrees (Δ)</label>
             <input style="border: 1px solid gray;" id="angle-input" type="number" class="form-control input" placeholder="Type" required>
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">PI Station</label>
             <input style="border: 1px solid gray;" id="station-input" type="number" class="form-control input" placeholder="Type" required>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Fixed Chord Length</label>
+            <input style="border: 1px solid gray;" id="chord-input" type="number" class="form-control input" placeholder="Type" required>
         </div>
         <div>
             <div style="display: inline-block;">
@@ -45,15 +49,21 @@
     <div style="margin-left: 20px; margin-top: 40px;">
         <h6 id="PC-station"><b>PC Station:</b></h6>
         <h6 id="PT-station" id="PT-station"><b>PT Station:</b></h6>
+        <h6 id="CurveLength"><b>Length of Curve:</b></h6>
+        <h6 id="TangentLength"><b>Length of Tangent:</b></h6>
+        <h6 id="ChordLength"><b>Length of Chord:</b></h6>
+        <h6 id="MidOrdinate"><b>Middle Ordinate:</b></h6>
+        <h6 id="ExtOrdinate"><b>External Ordinate:</b></h6>
     </div>
 
     <table class="table" style="margin-top: 100px; ">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th style="text-align: center;" scope="col">Satation</th>
-                <th style="text-align: center;" scope="col">Xa </th>
-                <th style="text-align: center;" scope="col">θi </th> 
+                <th scope="col">Station<br>Number</th>
+                <th style="text-align: center;" scope="col">Satation<br>Value</th>
+                <th style="text-align: center;" scope="col">Chord<br>(Xi) </th>
+                <th style="text-align: center;" scope="col">Subtended<br>Angle (θi)</th> 
+                <th style="text-align: center;" scope="col">Deflect.<br>Angle </th> 
             </tr>
         </thead>
         <tbody id="table-body">

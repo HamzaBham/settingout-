@@ -3,10 +3,12 @@ const form = document.querySelector('form');
 const radius = document.querySelector('#radius-input');
 const angle = document.querySelector('#angle-input');
 const PI = document.querySelector('#station-input');
+const ch = document.querySelector('#chord-input');
 //Inputs Values Print
 const radiusOutput = document.querySelector('#radius-output');
 const angleOutput = document.querySelector('#angle-output');
 const piOutput = document.querySelector('#pi-output');
+const chOutput = document.querySelector('#chord-output');
 //table body
 const tableBody = document.querySelector('#table-body');
 //results using formulae
@@ -19,38 +21,53 @@ let n = 1;
 form.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    radiusOutput.innerHTML = "<b>Radius Of Curve(R):</b>" + " " + radius.value;
-    angleOutput.innerHTML = "<b>Deflection Angle(Δ):</b>" + " " + angle.value;
-    piOutput.innerHTML = "<b>PI Station:</b>" + " " + PI.value;
+    radiusOutput.innerHTML = "<b>Radius Of Curve(R):</b>" + " " + radius.value + " m";
+    angleOutput.innerHTML = "<b>Deflection Angle(Δ):</b>" + " " + angle.value + " degrees";
+    piOutput.innerHTML = "<b>PI Station:</b>" + " " + PI.value + " m";
 
     if (radius.value < 0) {
         alert('Radius of Curve can not be negative');
-        radius.style.border = "2px solid red"; 
+        radius.style.border = "2px solid red";
         setTimeout(() => {
             radius.style.border = "1px solid gray";
-        },2000);
-        
-        radiusOutput.innerHTML = "<b>Radius Of Curve(R):</b>" 
-        angleOutput.innerHTML = "<b>Deflection Angle(Δ):</b>" 
-        piOutput.innerHTML = "<b>PI Station:</b>" ;
+        }, 2000);
+
+        radiusOutput.innerHTML = "<b>Radius Of Curve(R):</b>"
+        angleOutput.innerHTML = "<b>Deflection Angle(Δ):</b>"
+        piOutput.innerHTML = "<b>PI Station:</b>";
 
     } else if (angle.value == 0 || angle.value == 180) {
         alert('Deflection Angle can not be 0 or 180');
-        angle.style.border = "2px solid red"; 
+        angle.style.border = "2px solid red";
         setTimeout(() => {
             angle.style.border = "1px solid gray";
-        },2000);
+        }, 2000);
 
-        radiusOutput.innerHTML = "<b>Radius Of Curve(R):</b>" 
-        angleOutput.innerHTML = "<b>Deflection Angle(Δ):</b>" 
-        piOutput.innerHTML = "<b>PI Station:</b>" ;
+        radiusOutput.innerHTML = "<b>Radius Of Curve(R):</b>"
+        angleOutput.innerHTML = "<b>Deflection Angle(Δ):</b>"
+        piOutput.innerHTML = "<b>PI Station:</b>";
     } else {
 
-        let PCstationValue = Math.round(PI.value - radius.value * Math.tan((angle.value * Math.PI / 180) / 2)) ;
-        PCstation.innerHTML = "<b>PC Station:</b>" + " " + PCstationValue;
+        let PCstationValue = Math.round(PI.value - radius.value * Math.tan((angle.value * Math.PI / 180) / 2));
+        PCstation.innerHTML = "<b>PC Station:</b>" + " " + PCstationValue + " m";
 
         let PTStationValue = Math.round(PCstationValue + 2 * Math.PI * radius.value * angle.value / 360);
-        PTstation.innerHTML = "<b>PT Station:</b>" + " " + PTStationValue;
+        PTstation.innerHTML = "<b>PT Station:</b>" + " " + PTStationValue + " m";
+
+        let CurveLengthValue = Math.round(radius.value * angle.value * Math.PI / 180);
+        CurveLength.innerHTML = "<b>Length of Curve:</b>" + " " + CurveLengthValue + " m";
+
+        let TangentLengthValue = Math.round(radius.value * Math.tan((angle.value * Math.PI / 180) / 2));
+        TangentLength.innerHTML = "<b>Length of Tangent:</b>" + " " + TangentLengthValue + " m";
+
+        let ChordLengthValue = Math.round(2 * radius.value * Math.sin((angle.value * Math.PI / 180) / 2));
+        ChordLength.innerHTML = "<b>Length of Chord:</b>" + " " + ChordLengthValue + " m";
+
+        let MidOrdValue = Math.round(radius.value - (radius.value * Math.cos((angle.value * Math.PI / 180) / 2)));
+        MidOrdinate.innerHTML = "<b>Middle Ordinate:</b>" + " " + MidOrdValue + " m";
+
+        let ExtOrdValue = Math.round(radius.value * (1 / Math.cos((angle.value * Math.PI / 180) / 2) - 1));
+        ExtOrdinate.innerHTML = "<b>External Ordinate:</b>" + " " + ExtOrdValue + " m";
 
         const tr = document.createElement('tr');
         tableBody.appendChild(tr);
@@ -60,15 +77,15 @@ form.addEventListener('submit', (event) => {
         tr.appendChild(th);
 
         const tdOne = document.createElement('td');
-        tdOne.textContent =  PCstationValue ;
+        tdOne.textContent = PCstationValue;
         tr.appendChild(tdOne);
 
         n++;
         //Just for column Y
-        let radiusValue = radius.value; 
+        let radiusValue = radius.value;
         //Just for column Y
         for (let i = PCstationValue; i < PTStationValue; i++) {
-            if (i % 20 == 0) {
+            if (i % ch.value == 0) {
                 const tr = document.createElement('tr');
                 tableBody.appendChild(tr);
 
@@ -77,7 +94,7 @@ form.addEventListener('submit', (event) => {
                 tr.appendChild(th);
 
                 const tdOne = document.createElement('td');
-                tdOne.textContent = i ;
+                tdOne.textContent = i;
                 tr.appendChild(tdOne);
 
                 n++;
@@ -92,7 +109,7 @@ form.addEventListener('submit', (event) => {
         anothertr.appendChild(anotherth);
 
         const lasttdOne = document.createElement('td');
-        lasttdOne.textContent =  PTStationValue ;
+        lasttdOne.textContent = PTStationValue;
         anothertr.appendChild(lasttdOne);
 
         form.reset();
@@ -116,10 +133,26 @@ form.addEventListener('submit', (event) => {
             if (alltdThree.length == (alltrs.length - 2)) {
 
                 const sum = document.querySelector('#sum');
-                sum.innerHTML = "<b>Summation of θi:</b>" + " " +  Math.round((alltrs.length - 4) * parseFloat(alltdThree[1].textContent) + parseFloat(alltdThree[0].textContent) + parseFloat(alltdThree[alltrs.length - 3].textContent) );
+                sum.innerHTML = "<b>Summation of θi:</b>" + " " + Math.round((alltrs.length - 4) * parseFloat(alltdThree[1].textContent) + parseFloat(alltdThree[0].textContent) + parseFloat(alltdThree[alltrs.length - 3].textContent)) + " degrees" + "<br>{Note: Summation of θi should be half of Deflection Angle (Δ)}";
+            }
+
+            if (j == 0) {
+                const tdFour = document.createElement('td');
+                tdFour.classList.add('tdFour');
+                alltrs[2].appendChild(tdFour);
+                tdFour.textContent = alltdThree[0].textContent;
+            }else if(j <= alltrs.length){
+
+                const alltdFour = document.querySelectorAll('.tdFour');
+                
+                const tdFour = document.createElement('td');
+                tdFour.classList.add('tdFour');
+                alltrs[j+2].appendChild(tdFour); 
+                tdFour.textContent = parseFloat(parseFloat(alltdFour[j-1].textContent) + parseFloat(alltdThree[j].textContent)).toFixed(3); 
             }
         }
+
     }
 
 
-});  
+});
